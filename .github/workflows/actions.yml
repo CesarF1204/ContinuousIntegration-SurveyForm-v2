@@ -1,0 +1,30 @@
+name: Github Actions
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/abc
+  pull_request:
+    branches: 
+      - main
+      - develop
+      - feature/abc
+      
+jobs:
+  build:
+    name: Running Units Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+
+    - name: Compose up the docker
+      run: docker-compose -f "docker-compose.yml" up -d --build
+
+    - name: Compose down the docker
+      run: docker-compose -f "docker-compose.yml" down
